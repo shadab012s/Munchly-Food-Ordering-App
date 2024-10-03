@@ -1,59 +1,23 @@
-// const heading=React.createElement("h1",{id:"heading"},"hello world from react");
-//   const root=ReactDOM.createRoot(document.getElementById("root"));
-//   root.render(heading);
-
-  /* <div id="parent">
-    <div id="children1">
-        <h1>
-            "i m h1"
-        </h1>
-        <h2>i m h2</h2>
-    </div>
-    <div id="children2">
-        <h1>
-            "i m h1"
-        </h1>
-        <h2>i m h2</h2>
-    </div>
-</div> */
-// const parent=React.createElement("div",{id:"parent"},
-//   [
-//     React.createElement("div",{id:"child1"},
-   
-//       [React.createElement("h1",{},"i m h1"),
-//       React.createElement("h1",{},"i m h2")
-//     ]
-//   ), 
-//   React.createElement("div",{id:"child2"},
-   
-//     [
-//       React.createElement("h3",{},"i m h1"),
-//       React.createElement("h4",{},"i m h2")
-//     ]
-//   )
-// ]);
-// const root1=ReactDOM.createRoot(document.getElementById("root"));
-
-// root1.render(parent);
 import React from "react";
 import ReactDOM from "react-dom/client";
-const parent = React.createElement("div", { id: "parent" },
-  [
-    React.createElement("div", { id: "child1" },
-      [
-        React.createElement("h1", {}, "I am h1"),
-        React.createElement("h1", {}, "I am h2")
-      ]
-    ), 
-    React.createElement("div", { id: "child2" },
-      [
-        React.createElement("h3", {}, "I am h1"),
-        React.createElement("h4", {}, "I am h2")
-      ]
-    )
-  ]
+
+// jsx 
+const jsxheading=<h1 id="heading">hello from jsx</h1>
+console.log(jsxheading);
+const root=ReactDOM.createRoot(document.getElementById("root"));
+
+// functional base component
+const Title=()=>
+(
+    <h1 className="head" tabIndex="5">
+        hello using functional base component
+    </h1>
 );
-
-const root1 = ReactDOM.createRoot(document.getElementById("root"));
-root1.render(parent);
-
+// if u use curly braces use return
+const HeadingComponent=()=>{
+  return ( <div id="container">
+        <Title/> 
+        <h1 className="heading">hello using component composition</h1>
+    </div>)
+};
+root.render(<HeadingComponent/>);
