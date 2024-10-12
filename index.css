@@ -48,3 +48,8 @@
     flex-wrap: wrap;
     /* justify-content: space-between; */
 }
+
+/* filter button */
+.filter-btn{
+    margin: 10px;
+}
