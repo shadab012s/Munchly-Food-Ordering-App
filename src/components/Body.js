@@ -3,7 +3,11 @@ import reslist from "../utils/mockData";
 import { useState,useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
+
 const Body=()=>{
+
+   
 
     const [ListOfRestaurants,setListOfRestaurants]=useState([]);
     const[filteredRestaurants,setfilteredRestaurants]=useState([]); // making copy of original list
@@ -16,7 +20,9 @@ const Body=()=>{
     
     const fetchData=async ()=>{
         // swiggy api to fetch the restaurants 
-        const data=await fetch("https://www.swiggy.com/mapi/homepage/getCards?lat=28.7040592&lng=77.10249019999999");
+        const data = await fetch("https://www.swiggy.com/mapi/homepage/getCards?lat=28.7040592&lng=77.10249019999999");
+
+
 
         const json=await data.json();
         // using optional chaining
@@ -24,9 +30,16 @@ const Body=()=>{
         setfilteredRestaurants(json?.data?.success?.cards[1].gridWidget?.gridElements?.infoWithStyle?.restaurants);
 
     }
-    return ListOfRestaurants.length===0 ?
-         (<Shimmer/>):   // using shimmer for fake cards
-    (
+    const onlineStatus=useOnlineStatus();
+    //for checking network is present or not at user's end
+    if(onlineStatus===false)
+        return(
+    <h1>Looks like you are offline!! Please check your internet connection;</h1>)
+
+    if(ListOfRestaurants.length===0)
+         return (<Shimmer/>)  // using shimmer for fake cards
+
+   return  (
     <div className="body">
     
 
@@ -66,7 +79,7 @@ const Body=()=>{
 
        {/* using map to pass reslist data */}
 
-       {filteredRestaurants.map((restaurant)=>        // to display to ui
+       {ListOfRestaurants.map((restaurant)=>        // to display to ui
     (<Link
         key={restaurant.info.id} 
          to={"restaurants/"+restaurant.info.id}>

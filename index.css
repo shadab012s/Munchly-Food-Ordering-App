@@ -111,3 +111,15 @@ a:-webkit-any-link {
     justify-content: space-between;
     
 }
+
+.user-cards
+{
+    border: 1px solid black;
+    background-color: aliceblue;
+}
+
+/* .user-card
+{
+    border: 1px solid black;
+    background-color: aliceblue;
+} */

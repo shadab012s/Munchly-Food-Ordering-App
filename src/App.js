@@ -1,4 +1,4 @@
-import React from "react";
+import React,{lazy,Suspense} from "react";
 import ReactDOM, { createRoot } from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
@@ -8,8 +8,10 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import Error from "./components/error";
 import RestaurantMenu from "./components/RestaurantMenu";
+// import Grocery from "./components/Grocery";
 
-
+// using lazy loading or ondemand loading
+const Grocery=lazy(()=>import("./components/Grocery"));
 
 const AppLayout=()=>
 {
@@ -43,7 +45,14 @@ const approuter=createBrowserRouter([
          path:"/restaurants/:resid",
          element:<RestaurantMenu/>,
 
-         },],
+         },
+        {
+        path:"/grocery",
+        element:<Suspense 
+                fallback={<h1>loading...</h1>}>
+                <Grocery/>
+                </Suspense>
+        }],
     errorElement:<Error/>,
 
 },
