@@ -16,11 +16,7 @@ class UserClass extends React.Component {
     }
 
     async componentDidMount() {
-        const data = await fetch("https://api.github.com/users/shadab012s", {
-            headers: {
-                Authorization: "token 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"
-            }
-        });
+        const data = await fetch("https://api.github.com/users/shadab012s");
         
         const json = await data.json(); // Call .json() as a function
         console.log(json);
