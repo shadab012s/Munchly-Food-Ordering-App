@@ -4,6 +4,7 @@ import RestaurantMenuCard from "./RestaurantMenuCard";
 import { useParams } from "react-router-dom";
 import { menu_api } from "../utils/constants";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
+import RestaurantCategory from "./RestaurantCategory";
 
 
 
@@ -25,6 +26,7 @@ console.log(resid);
 // }   
 
 const resData=useRestaurantMenu(resid);
+const [showIndex,setShowIndex]=useState(null);
 if(resData===null)
     return <Shimmer/>
 
@@ -32,21 +34,36 @@ if(resData===null)
 const {name,cuisines,avgRating,areaName,costForTwoMessage,sla}=resData?.data?.cards[2]?.card?.card?.info;
 //for dislaying res menu
 const resItems=resData?.data.cards[5]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card?.card?.itemCards;
-console.log(resItems);
+
+
+// for having accordians of a resturant
+const categories=resData?.data.cards[5]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter((c)=>c.card?.card?.["@type"]==="type.googleapis.com/swiggy.presentation.food.v2.ItemCategory");
+
 
 
     return (
-        <div className="restaurantName">
-           <ul> <li><h1>{resData.data.cards[2].card.card.info.name}</h1></li>
-           <li> {cuisines.join(",")}</li>
-           <li>{avgRating}</li>
-           <li> {areaName}</li>
-           <li> {costForTwoMessage}</li>
-           <li> {sla.deliveryTime} minutes</li>
-           </ul>
+        <div className="restaurantName text-center">
+            <div>
+            <p><h1 className="font-bold my-6 text-2xl">{name}</h1></p>
+           <p className="font-bold text-lg"> {cuisines.join(",")}</p>
+           
+           <p> {areaName}, {costForTwoMessage}, {avgRating}⭐</p>
+           <p> {sla.deliveryTime} minutes</p>
+           
+           {/*categories accordians */}
 
-           <div className="menu">
-            <h1>Menu</h1>
+           {
+            categories.map((category,index)=>
+            (
+                <RestaurantCategory key={category?.card?.card?.title} 
+                data={category.card.card}
+                showItems={index===showIndex?true:false}
+                setShowIndex={()=>setShowIndex(index)}/>
+            ))
+           }
+           </div>
+           {/* <div className="menu m-6">
+            <h1>Menu</h1> */}
             {/* */}
 
 
@@ -59,13 +76,13 @@ console.log(resItems);
             <li>{resItems[0].card.info.name}</li> */}
 
            
-      {resItems.map((items)=>        // to display to ui
+      {/* {resItems.map((items)=>        // to display to ui
     (<RestaurantMenuCard key={items?.card?.info?.id} resData={items}/>))}   {/* passing as props*/}
         
 
-
-           </div>
-        </div>
+{/* 
+           </div> */}
+        </div> 
 
     );
 }

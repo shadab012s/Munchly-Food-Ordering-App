@@ -1,4 +1,4 @@
-import React,{lazy,Suspense} from "react";
+import React,{lazy,Suspense, useEffect,useState} from "react";
 import ReactDOM, { createRoot } from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
@@ -8,6 +8,7 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import Error from "./components/error";
 import RestaurantMenu from "./components/RestaurantMenu";
+import UserContext from "./utils/UserContext";
 // import Grocery from "./components/Grocery";
 
 // using lazy loading or ondemand loading
@@ -15,11 +16,27 @@ const Grocery=lazy(()=>import("./components/Grocery"));
 
 const AppLayout=()=>
 {
+        // for makingchanges in user context
+    const [userName,setUserName]=useState();
+    
+    useEffect(()=>
+    {
+        // making api call and send username and password
+        const data={
+            name:"shadab",
+        }
+        setUserName(data.name);
+    },[])
+
     return (
         <div className="app"> 
+
+        {/* .provider with user context to manipulate its data by wrapping the funvtional component inside it*/}
+        <UserContext.Provider value={{loggedInUser:userName,setUserName}}>
         <Header/>
         {/* <Body/> */}
         <Outlet/>
+        </UserContext.Provider>
         </div>
     )
 }
