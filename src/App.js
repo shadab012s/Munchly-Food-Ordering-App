@@ -9,6 +9,10 @@ import Contact from "./components/Contact";
 import Error from "./components/error";
 import RestaurantMenu from "./components/RestaurantMenu";
 import UserContext from "./utils/UserContext";
+import { Provider } from "react-redux";
+import appStore from "./utils/appStore";
+import Cart from "./components/Cart";
+
 // import Grocery from "./components/Grocery";
 
 // using lazy loading or ondemand loading
@@ -29,17 +33,21 @@ const AppLayout=()=>
     },[])
 
     return (
-        <div className="app"> 
-
+        // using redux store
+        <Provider store={appStore}>  
         {/* .provider with user context to manipulate its data by wrapping the funvtional component inside it*/}
         <UserContext.Provider value={{loggedInUser:userName,setUserName}}>
+        <div className="app"> 
         <Header/>
         {/* <Body/> */}
         <Outlet/>
-        </UserContext.Provider>
         </div>
-    )
-}
+        </UserContext.Provider>
+        </Provider>
+        
+
+    );
+};
 // to route to other pages with  changes in url
 const approuter=createBrowserRouter([
 {
@@ -69,7 +77,11 @@ const approuter=createBrowserRouter([
                 fallback={<h1>loading...</h1>}>
                 <Grocery/>
                 </Suspense>
-        }],
+        },
+    {
+        path:"/cart",
+        element:<Cart/>
+    }],
     errorElement:<Error/>,
 
 },

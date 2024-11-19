@@ -17,3 +17,12 @@ footer
     address
     links         
 */
+# 2 types routing in web apps
+-client side routing
+-server side routing
+# redux toolkit
+-install @reduxjs/toolkit and react-redux
+-build our store 
+-connectour store to app
+-slice (cart slice) create this
+-dispatch(action)
