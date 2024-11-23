@@ -12,42 +12,44 @@ import UserContext from "./utils/UserContext";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
 import Cart from "./components/Cart";
+import Footer from "./components/Footer";
+
 
 // import Grocery from "./components/Grocery";
 
 // using lazy loading or ondemand loading
 const Grocery=lazy(()=>import("./components/Grocery"));
 
-const AppLayout=()=>
-{
-        // for makingchanges in user context
-    const [userName,setUserName]=useState();
-    
-    useEffect(()=>
-    {
-        // making api call and send username and password
-        const data={
-            name:"shadab",
-        }
-        setUserName(data.name);
-    },[])
-
+const AppLayout = () => {
+    // for making changes in user context
+    const [userName, setUserName] = useState();
+  
+    useEffect(() => {
+      // making API call and send username and password
+      const data = {
+        name: "shadab",
+      };
+      setUserName(data.name);
+    }, []);
+  
     return (
-        // using redux store
-        <Provider store={appStore}>  
-        {/* .provider with user context to manipulate its data by wrapping the funvtional component inside it*/}
-        <UserContext.Provider value={{loggedInUser:userName,setUserName}}>
-        <div className="app"> 
-        <Header/>
-        {/* <Body/> */}
-        <Outlet/>
-        </div>
+      // using redux store
+      <Provider store={appStore}>
+        {/* Provider with UserContext to manipulate its data */}
+        <UserContext.Provider value={{ loggedInUser: userName, setUserName }}>
+          <div className="app flex flex-col min-h-screen"> 
+            <Header />
+            {/* Main content area */}
+            <div className="flex-grow">
+              <Outlet />
+            </div>
+            <Footer />
+          </div>
         </UserContext.Provider>
-        </Provider>
-        
-
+      </Provider>
     );
-};
+  };
+  
 // to route to other pages with  changes in url
 const approuter=createBrowserRouter([
 {

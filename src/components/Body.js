@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import UserContext from "../utils/UserContext";
 import { useContext } from "react";
+import { BodyCard_URL } from "../utils/constants";
 
 const Body=()=>{
 
@@ -21,21 +22,31 @@ const Body=()=>{
     const {loggedInUser,setUserName}=useContext(UserContext);
 
     useEffect(()=>{
-        fetchData();
+        fetchData()
     },[]);
+
+
+   
+      
     
-    const fetchData=async ()=>{
-        // swiggy api to fetch the restaurants 
-        const data = await fetch("https://www.swiggy.com/mapi/homepage/getCards?lat=28.7040592&lng=77.10249019999999");
+    const fetchData = async () => {
+  const timestamp = new Date().getTime(); // Add a unique query param
+  const data = await fetch(`https://www.swiggy.com/mapi/homepage/getCards?lat=28.7040592&lng=77.10249019999999&_=${timestamp}`);
+  
+
+  const json = await data.json();
+//   console.log(json);
+
+  setListOfRestaurants(json?.data?.success?.cards[1].gridWidget?.gridElements?.infoWithStyle?.restaurants);
+  setfilteredRestaurants(json?.data?.success?.cards[1].gridWidget?.gridElements?.infoWithStyle?.restaurants);
+  console.log(json?.data?.success?.cards[1].gridWidget?.gridElements?.infoWithStyle);
+};
 
 
 
-        const json=await data.json();
-        // using optional chaining
-        setListOfRestaurants(json?.data?.success?.cards[1].gridWidget?.gridElements?.infoWithStyle?.restaurants);
-        setfilteredRestaurants(json?.data?.success?.cards[1].gridWidget?.gridElements?.infoWithStyle?.restaurants);
 
-    }
+  
+
     const onlineStatus=useOnlineStatus();
     //for checking network is present or not at user's end
     if(onlineStatus===false)
@@ -111,6 +122,8 @@ const Body=()=>{
         
         </div>
     </div>);
+   
+
    
 };
 export default Body;

@@ -3,6 +3,8 @@ import { CDN_URL } from "../utils/constants";
 import UserContext from "../utils/UserContext";
 const RestaurantCard=(props)=>{ // props is like argument
     const{resData}=props;
+    console.log(resData);
+    
     // using usecontextin in cards
     const {loggedInUser}=useContext(UserContext);
 
@@ -31,7 +33,7 @@ const RestaurantCard=(props)=>{ // props is like argument
 };
 // higher order component
 // it takes functional component "restaurant card" as input and return new functional component with added features 
-// and it does not mosify existing features
+// and it does not modify existing features
 
 export const withPrometedLabel=(RestaurantCard)=>
 {
