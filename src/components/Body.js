@@ -11,7 +11,7 @@ import { BodyCard_URL } from "../utils/constants";
 const Body=()=>{
 
    
-
+    
     const [ListOfRestaurants,setListOfRestaurants]=useState([]);
     const[filteredRestaurants,setfilteredRestaurants]=useState([]); // making copy of original list
     // for search box value
@@ -22,7 +22,7 @@ const Body=()=>{
     const {loggedInUser,setUserName}=useContext(UserContext);
 
     useEffect(()=>{
-        fetchData()
+        fetchData();
     },[]);
 
 
@@ -31,15 +31,18 @@ const Body=()=>{
     
     const fetchData = async () => {
   const timestamp = new Date().getTime(); // Add a unique query param
-  const data = await fetch(`https://www.swiggy.com/mapi/homepage/getCards?lat=28.7040592&lng=77.10249019999999&_=${timestamp}`);
+//   const data = await fetch(`https://www.swiggy.com/mapi/homepage/getCards?lat=28.7040592&lng=77.10249019999999&_=${timestamp}`);
+//   const data = await fetch(`https://thingproxy.freeboard.io/fetch/https://www.swiggy.com/mapi/homepage/getCards?lat=28.7040592&lng=77.1024902&_=${timestamp}&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING
+// `);
+const data= await fetch(`https://www.swiggy.com/mapi/restaurants/list/v5?offset=0&is-seo-homepage-enabled=true&lat=19.0759837&lng=72.8776559&carousel=true&third_party_vendor=1`);
   
 
   const json = await data.json();
 //   console.log(json);
 
-  setListOfRestaurants(json?.data?.success?.cards[1].gridWidget?.gridElements?.infoWithStyle?.restaurants);
-  setfilteredRestaurants(json?.data?.success?.cards[1].gridWidget?.gridElements?.infoWithStyle?.restaurants);
-  console.log(json?.data?.success?.cards[1].gridWidget?.gridElements?.infoWithStyle);
+  setListOfRestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+  setfilteredRestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+  console.log(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
 };
 
 
@@ -51,12 +54,13 @@ const Body=()=>{
     //for checking network is present or not at user's end
     if(onlineStatus===false)
         return(
-    <h1>Looks like you are offline!! Please check your internet connection;</h1>)
+    <h1>Looks like you are offline!! Please check your internet connection;</h1>);
 
-    if(ListOfRestaurants.length===0)
-         return (<Shimmer/>)  // using shimmer for fake cards
+    // using shimmer for fake cards
 
-   return  (
+    return (ListOfRestaurants.length===0)?
+         (<Shimmer/>):
+    (
     <div className="body">
     
 
@@ -110,10 +114,10 @@ const Body=()=>{
        {filteredRestaurants.map((restaurant)=>        // to display to ui // it is basically an array
     (<Link
         key={restaurant.info.id} 
-         to={"restaurants/"+restaurant.info.id}>
+         to={"/restaurants/"+restaurant?.info.id}>
             {/*when restaurant is promoted */}
-        {restaurant.info.promoted ?(<RestaurantCardPromoted resData={restaurant}/>):  
-    (<RestaurantCard resData={restaurant}/>)}
+        {restaurant.info.promoted ?(<RestaurantCardPromoted resData={restaurant.info}/>):  
+    (<RestaurantCard resData={restaurant.info}/>)}
     </Link>
 ))}
         

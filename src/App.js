@@ -6,7 +6,7 @@ import { CDN_URL } from "./utils/constants";
 import { createBrowserRouter,RouterProvider ,Outlet} from "react-router-dom";
 import About from "./components/About";
 import Contact from "./components/Contact";
-import Error from "./components/error";
+import Error from "./components/Error";
 import RestaurantMenu from "./components/RestaurantMenu";
 import UserContext from "./utils/UserContext";
 import { Provider } from "react-redux";

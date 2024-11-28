@@ -15,9 +15,11 @@ const RestaurantCard=(props)=>{ // props is like argument
         costForTwo,
         avgRating,
         sla,
-    }=resData?.info; // functional chaining
+    }=resData; // functional chaining
     return(
         <div className="res-card m-4 p-4 w-[250px] bg-gray-200 shadow-lg rounded-lg hover:bg-gray-300">
+
+            
             <img 
             className="res-logo rounded-lg w-[200px] h-[200px]"
             src={CDN_URL+cloudinaryImageId }/>
