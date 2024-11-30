@@ -1,6 +1,8 @@
 import { useDispatch } from "react-redux";
 import { CDN_URL } from "../utils/constants";
 import { addItem } from "../utils/cartSlice";
+
+// it will contain the items of  each category
 const ItemList = ({ items }) => {
 
   const dispatch= useDispatch();
@@ -14,6 +16,7 @@ const ItemList = ({ items }) => {
     <div>
       {items.map((item) => (
         <div
+        data-testid="foodItemsId"
           key={item.card.info.id}
           className="p-2 m-2 border-gray-200 border-b-2 text-left flex justify-between"
         >

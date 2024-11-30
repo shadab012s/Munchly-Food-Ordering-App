@@ -2,3 +2,5 @@
 /dist
 .parcel-cache
 /coverage
+/components/body1.js
+/components/RestoCard.js

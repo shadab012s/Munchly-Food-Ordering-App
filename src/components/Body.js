@@ -35,10 +35,11 @@ const Body=()=>{
 //   const data = await fetch(`https://thingproxy.freeboard.io/fetch/https://www.swiggy.com/mapi/homepage/getCards?lat=28.7040592&lng=77.1024902&_=${timestamp}&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING
 // `);
 const data= await fetch(`https://www.swiggy.com/mapi/restaurants/list/v5?offset=0&is-seo-homepage-enabled=true&lat=19.0759837&lng=72.8776559&carousel=true&third_party_vendor=1`);
+
   
 
   const json = await data.json();
-//   console.log(json);
+  console.log(json);
 
   setListOfRestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
   setfilteredRestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
@@ -67,7 +68,7 @@ const data= await fetch(`https://www.swiggy.com/mapi/restaurants/list/v5?offset=
         <div className="filter flex ">
             {/* search box to filter out restaurant*/}
             <div className="search m-4 p-4">
-            <input type="text" className="search-box border border-solid border-black rounded-lg m-4" value={searchValue}
+            <input type="text" data-testid="searchId" className="search-box border border-solid border-black rounded-lg m-4" value={searchValue}
              onChange={(e)=> // e is event handler
              {
                 Setsearchvalue(e.target.value);
@@ -97,9 +98,7 @@ const data= await fetch(`https://www.swiggy.com/mapi/restaurants/list/v5?offset=
                 setfilteredRestaurants(filterdList);
             }
             }
-            >
-               Top rated  Restaurants
-            </button>
+            >Top Rated  Restaurants</button>
             </div>
             <div  className="search m-4 p-4 flex items-center ">
                 <label>user : </label>

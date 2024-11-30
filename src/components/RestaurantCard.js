@@ -3,7 +3,7 @@ import { CDN_URL } from "../utils/constants";
 import UserContext from "../utils/UserContext";
 const RestaurantCard=(props)=>{ // props is like argument
     const{resData}=props;
-    console.log(resData);
+    
     
     // using usecontextin in cards
     const {loggedInUser}=useContext(UserContext);
@@ -17,7 +17,7 @@ const RestaurantCard=(props)=>{ // props is like argument
         sla,
     }=resData; // functional chaining
     return(
-        <div className="res-card m-4 p-4 w-[250px] bg-gray-200 shadow-lg rounded-lg hover:bg-gray-300">
+        <div data-testid="resCardId" className="res-card m-4 p-4 w-[250px] bg-gray-200 shadow-lg rounded-lg hover:bg-gray-300">
 
             
             <img 

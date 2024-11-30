@@ -22,9 +22,11 @@ const ItemCartList = ({ items }) => {
   };
 
   return (
+    
     <div className="p-4">
       {items.map((item) => (
         <div
+        data-testid="foodItemsId"
           key={item.card.info.id}
           className="p-4 mb-4 border border-gray-200 rounded-lg shadow-md bg-white flex flex-row-reverse"
         >

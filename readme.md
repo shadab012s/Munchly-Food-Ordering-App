@@ -1,31 +1,38 @@
 # munchly
 /* 
-header
-    -logo
-    navbar
-        -home
-        -about
-        -cart
-body
-    -searchbar
-    -card container
-        card
-            -img
-            -name of res,star rating,delivery time
-footer
-    -copyright
-    address
-    links         
+## Header
+- **Logo**
+- **Nav Items:**  
+  - Home  
+  - About  
+  - Cart  
+
+## Body
+- **Search**  
+- **RestaurantContainer**  
+  - **RestaurantCard:**  
+    - Img  
+    - Name of Restaurant  
+    - Star Rating  
+    - Cuisine  
+    - Delivery Time  
+
+## Footer
+- **Copyright**  
+- **Links**  
+- **Address**  
+- **Contact**
 */
+
 # 2 types routing in web apps
--client side routing
--server side routing
+- client side routing
+- server side routing
 # redux toolkit
--install @reduxjs/toolkit and react-redux
--build our store 
--connectour store to app
--slice (cart slice) create this
--dispatch(action)
+- install @reduxjs/toolkit and react-redux
+- build our store 
+- connectour store to app
+- slice (cart slice) create this
+- dispatch(action)
 
 # types of testing
 - unit testing

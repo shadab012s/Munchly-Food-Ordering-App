@@ -6,7 +6,7 @@ import "@testing-library/jest-dom";
 
 it("should render restaurant card component with props data",()=>
 {
-    render(<RestaurantCard resData={MOCK_DATA}/>);
+    render(<RestaurantCard resData={MOCK_DATA.info}/>);
     const name =screen.getByText("Taco Bell");
     expect(name).toBeInTheDocument();
 });
@@ -15,7 +15,7 @@ it("should render restaurant card component with props data",()=>
 it("should render RestaurantCard component with Promoted label", () => {
     const PromotedCard = withPrometedLabel(RestaurantCard);
 
-    render(<PromotedCard resData={MOCK_DATA} />);
+    render(<PromotedCard resData={MOCK_DATA.info} />);
     
     // Assuming the promoted label is rendered as text or a specific element
     const label = screen.getByText(/promoted/i);
