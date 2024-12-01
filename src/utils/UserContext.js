@@ -3,7 +3,7 @@
 
 import { createContext } from "react";
 
-    // it takes objectand work as gloabal objext
+    // it takes object and work as gloabal objext
 const UserContext=createContext({
 loggedInUser:"default user"
 }); 

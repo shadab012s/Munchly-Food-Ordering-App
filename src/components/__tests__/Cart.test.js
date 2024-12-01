@@ -22,7 +22,7 @@ it("should load restaurants menu component",async()=>{
         <Cart/>
         </Provider></BrowserRouter> 
     ));
-    const accordianHeader=screen.getByText("Recommended(20)");
+    const accordianHeader=screen.getByText("Recommended (20)");
     fireEvent.click(accordianHeader);
     expect(screen.getAllByTestId("foodItemsId").length).toBe(20);
 
@@ -31,13 +31,15 @@ it("should load restaurants menu component",async()=>{
     console.log(addButtons.length);// it will give 10
 
     //before clicking
-    expect(screen.getByText("Cart -0"));
+    
+    expect(screen.getByText("0"));
+
     // clicking first fooditem's button and updating the cart which is a part of Header components
     fireEvent.click(addButtons[0]);
-    expect(screen.getByText("Cart -1"));
+    expect(screen.getAllByText("1"));
 
     fireEvent.click(addButtons[1]);
-    expect(screen.getByText("Cart -2"));
+    expect(screen.getByText("2"));
     //checking the length after adding to cart
     expect(screen.getAllByTestId("foodItemsId").length).toBe(22);
 

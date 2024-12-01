@@ -1,132 +1,133 @@
-import RestaurantCard,{withPrometedLabel} from "./RestaurantCard";
-import reslist from "../utils/mockData";
-import { useState,useEffect } from "react";
+
+import { useState, useEffect, useContext } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import UserContext from "../utils/UserContext";
-import { useContext } from "react";
+import RestaurantCard, { withPrometedLabel } from "./RestaurantCard";
+import WhatsOnMindCard from "./WhatsOnMindCard";
 import { BodyCard_URL } from "../utils/constants";
 
-const Body=()=>{
+const Body = () => {
+  const [ListOfRestaurants, setListOfRestaurants] = useState([]);
+  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+  const [whatsOnMindArray, setWhatsOnMindArray] = useState([]);
+  const [searchValue, setSearchValue] = useState(""); // for search box value
+  const RestaurantCardPromoted = withPrometedLabel(RestaurantCard); // for promoted label
+  const { loggedInUser, setUserName } = useContext(UserContext); // for using context
 
-   
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const data = await fetch(BodyCard_URL);
+    const json = await data.json();
+    setListOfRestaurants(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+    setFilteredRestaurants(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+    setWhatsOnMindArray(json?.data?.cards[0]?.card?.card?.gridElements?.infoWithStyle?.info);
+  };
+
+  const onlineStatus = useOnlineStatus();
+  // Display message if user is offline
+  if (onlineStatus === false) return <h1>Looks like you are offline! Please check your internet connection.</h1>;
+
+  // Use shimmer for loading state
+  return ListOfRestaurants.length === 0 ? (
+    <Shimmer />
+  ) : (
     
-    const [ListOfRestaurants,setListOfRestaurants]=useState([]);
-    const[filteredRestaurants,setfilteredRestaurants]=useState([]); // making copy of original list
-    // for search box value
-    const [searchValue,Setsearchvalue]=useState("");
-    //for promoted label, higher order component
-    const RestaurantCardPromoted=withPrometedLabel(RestaurantCard);
-    // for using context
-    const {loggedInUser,setUserName}=useContext(UserContext);
+    <div className="body min-h-screen bg-gray-50">
 
-    useEffect(()=>{
-        fetchData();
-    },[]);
+      {/* Filter and Search Section */}
+      <div className="filter flex flex-wrap justify-between items-center p-4">
 
+        <div className="search m-4 flex items-center space-x-4">
+          {/* Search Box */}
+          <input
+            type="text"
+            data-testid="searchId"
+            className="search-box border border-solid border-black rounded-lg p-2"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            placeholder="Search for restaurants"
+          />
+          {/* Search Button */}
+          <button
+            className="px-4 py-1 bg-green-100 rounded-lg transition-all hover:bg-green-300"
+            onClick={() => {
+              const filtered = ListOfRestaurants.filter((res) =>
+                res.info.name.toLowerCase().includes(searchValue.toLowerCase())
+              );
+              setFilteredRestaurants(filtered);
+            }}
+          >
+            Search
+          </button>
+        </div>
 
-   
-      
-    
-    const fetchData = async () => {
-  const timestamp = new Date().getTime(); // Add a unique query param
-//   const data = await fetch(`https://www.swiggy.com/mapi/homepage/getCards?lat=28.7040592&lng=77.10249019999999&_=${timestamp}`);
-//   const data = await fetch(`https://thingproxy.freeboard.io/fetch/https://www.swiggy.com/mapi/homepage/getCards?lat=28.7040592&lng=77.1024902&_=${timestamp}&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING
-// `);
-const data= await fetch(`https://www.swiggy.com/mapi/restaurants/list/v5?offset=0&is-seo-homepage-enabled=true&lat=19.0759837&lng=72.8776559&carousel=true&third_party_vendor=1`);
+        
+            <div flex  items-center >
+        {/* Button to filter top-rated restaurants */}
+        
+          <button
+            className="filter-btn px-4 py-2 mx-2 bg-gray-100 rounded-lg transition-all hover:bg-gray-300"
+            onClick={() => {
+              const filteredList = ListOfRestaurants.filter((res) => res.info.avgRating > 4.2);
+              setFilteredRestaurants(filteredList);
+            }}
+          >
+            Top Rated Restaurants
+          </button>
+        
 
-  
+         {/* Button to reset filter top-rated restaurants */}
+         
+          <button
+            className="filter-btn px-4 py-2 mx-2 bg-gray-100 rounded-lg transition-all hover:bg-gray-300"
+            onClick={() => {
+              const filteredList = ListOfRestaurants.filter((res) => res.info);
+              setFilteredRestaurants(filteredList);
+            }}
+          >
+            Reset
+          </button>
+        
+            </div>
+        {/* Input for user's name */}
+        <div className="search m-4 p-4 flex items-center">
+          <label className="mr-2">User:</label>
+          <input
+            className="border border-black rounded-lg p-2"
+            type="text"
+            value={loggedInUser}
+            onChange={(e) => setUserName(e.target.value)}
+          />
+        </div>
+      </div>
 
-  const json = await data.json();
-  console.log(json);
+      {/* Whats On Your Mind Cards */}
+      <div className="whats-on-mind-container flex overflow-x-auto hide-scrollbar px-4 space-x-4 w-full my-14">
+        {whatsOnMindArray.map((foodItem) => (
+          <WhatsOnMindCard key={foodItem.id} mindData={foodItem} />
+        ))}
+      </div>
 
-  setListOfRestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-  setfilteredRestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-  console.log(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+      {/* Restaurant Cards */}
+      <div className="restaurant-container grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 my-12">
+        {filteredRestaurants.map((restaurant) => (
+          <Link key={restaurant.info.id} to={"/restaurants/" + restaurant?.info.id}>
+            {/* Render promoted card if available */}
+            {restaurant.info.promoted ? (
+              <RestaurantCardPromoted resData={restaurant.info} />
+            ) : (
+              <RestaurantCard resData={restaurant.info} />
+            )}
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
 };
 
-
-
-
-  
-
-    const onlineStatus=useOnlineStatus();
-    //for checking network is present or not at user's end
-    if(onlineStatus===false)
-        return(
-    <h1>Looks like you are offline!! Please check your internet connection;</h1>);
-
-    // using shimmer for fake cards
-
-    return (ListOfRestaurants.length===0)?
-         (<Shimmer/>):
-    (
-    <div className="body">
-    
-
-        <div className="filter flex ">
-            {/* search box to filter out restaurant*/}
-            <div className="search m-4 p-4">
-            <input type="text" data-testid="searchId" className="search-box border border-solid border-black rounded-lg m-4" value={searchValue}
-             onChange={(e)=> // e is event handler
-             {
-                Setsearchvalue(e.target.value);
-             }
-             }/>
-             
-             {/* search button*/}
-             
-             <button className="px-4 py-1 bg-green-100 rounded-lg"  onClick={()=>
-                {
-                   const filteredRestaurants= ListOfRestaurants.filter((res)=> res.info.name.toLowerCase().includes(searchValue.toLowerCase()));
-                   setfilteredRestaurants(filteredRestaurants);
-                }
-                
-             }>search</button>
-             </div>
-
-             {/* //button for filtering the res with rating >4.2 */}
-             <div  className="search m-4 p-4 flex items-center ">
-            <button 
-            className="filter-btn px-4 py-2 bg-gray-100 rounded-lg"  
-            onClick={()=>
-            {
-                const filterdList=ListOfRestaurants.filter(
-                    (res)=>res.info.avgRating>4.2
-                );
-                setfilteredRestaurants(filterdList);
-            }
-            }
-            >Top Rated  Restaurants</button>
-            </div>
-            <div  className="search m-4 p-4 flex items-center ">
-                <label>user : </label>
-            <input className="border border-black  rounded-lg p-2" type="text" value={loggedInUser} onChange={(e)=>setUserName(e.target.value)}/>
-            </div>
-        </div>
-        <div className="restaurant-container flex flex-wrap w-full ">
-       {/* <Resturantcard resData={reslist[0]}/>  */}
-
-       {/* using map to pass reslist data */}
-
-       {filteredRestaurants.map((restaurant)=>        // to display to ui // it is basically an array
-    (<Link
-        key={restaurant.info.id} 
-         to={"/restaurants/"+restaurant?.info.id}>
-            {/*when restaurant is promoted */}
-        {restaurant.info.promoted ?(<RestaurantCardPromoted resData={restaurant.info}/>):  
-    (<RestaurantCard resData={restaurant.info}/>)}
-    </Link>
-))}
-        
-        
-        
-        
-        </div>
-    </div>);
-   
-
-   
-};
 export default Body;

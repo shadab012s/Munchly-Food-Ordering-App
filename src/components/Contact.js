@@ -13,7 +13,7 @@ const Contact = () => {
         </p>
 
         {/* Contact Form */}
-        <div className="bg-white rounded-lg shadow-lg p-8 md:p-12 lg:w-2/3 xl:w-1/2 mx-auto">
+        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 lg:w-1/2 xl:w-1/3 mx-auto">
           <form className="space-y-6">
             {/* Name */}
             <div>
@@ -25,7 +25,7 @@ const Contact = () => {
                 id="name"
                 name="name"
                 placeholder="Enter your full name"
-                className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring focus:ring-pink-300"
+                className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-pink-50"
               />
             </div>
             {/* Email */}
@@ -38,7 +38,7 @@ const Contact = () => {
                 id="email"
                 name="email"
                 placeholder="Enter your email address"
-                className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring focus:ring-pink-300"
+                className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-pink-50"
               />
             </div>
             {/* Message */}
@@ -49,16 +49,16 @@ const Contact = () => {
               <textarea
                 id="message"
                 name="message"
-                rows="4"
+                rows="3"
                 placeholder="Write your message here..."
-                className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring focus:ring-pink-300"
+                className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-pink-50"
               />
             </div>
             {/* Submit Button */}
             <div className="text-center">
               <button
                 type="submit"
-                className="bg-gray-500 text-white font-medium py-3 px-6 rounded-lg hover:bg-green-600 transition duration-300"
+                className="bg-gray-500 text-white font-medium py-2 px-6 rounded-lg hover:bg-green-600 transition duration-300"
               >
                 Send Message
               </button>
@@ -76,7 +76,7 @@ const Contact = () => {
             <span className="font-medium">Phone:</span> +1-234-567-890
           </p>
           <p className="text-gray-600">
-            <span className="font-medium">Address:</span> 123 Food Street, Gourmet City, Yumland
+            <span className="font-medium">Address:</span> New Delhi, India
           </p>
         </div>
       </div>

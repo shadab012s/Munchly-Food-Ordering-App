@@ -1,55 +1,56 @@
+
+
 import { useContext } from "react";
 import { CDN_URL } from "../utils/constants";
 import UserContext from "../utils/UserContext";
-const RestaurantCard=(props)=>{ // props is like argument
-    const{resData}=props;
-    
-    
-    // using usecontextin in cards
-    const {loggedInUser}=useContext(UserContext);
 
-    const{
-        cloudinaryImageId,
-        name,
-        cuisines,
-        costForTwo,
-        avgRating,
-        sla,
-    }=resData; // functional chaining
-    return(
-        <div data-testid="resCardId" className="res-card m-4 p-4 w-[250px] bg-gray-200 shadow-lg rounded-lg hover:bg-gray-300">
+const RestaurantCard = (props) => {
+  const { resData } = props;
 
-            
-            <img 
-            className="res-logo rounded-lg w-[200px] h-[200px]"
-            src={CDN_URL+cloudinaryImageId }/>
-            <h3 className="font-bold py-4 text-lg">{name}</h3>
-            <h5>{cuisines.slice(0,3).join(",")}</h5>
-            <h5>{costForTwo}</h5>
-            <h5>{avgRating} stars</h5>
-            <h5>{sla.deliveryTime} minutes</h5>
-            <h5>user : {loggedInUser}</h5>
-            
-        </div>
+  // Using useContext in cards
+  const { loggedInUser } = useContext(UserContext);
+
+  const {
+    cloudinaryImageId,
+    name,
+    cuisines,
+    costForTwo,
+    avgRating,
+    sla,
+  } = resData; // functional chaining
+
+  return (
+    <div
+      data-testid="resCardId"
+      className="res-card m-4 p-4 w-full sm:w-[250px] bg-gray-200 shadow-lg rounded-lg hover:bg-gray-300 transition-all duration-300 ease-in-out transform hover:scale-105"
+    >
+      <img
+        className="res-logo rounded-lg w-full h-[200px] object-cover"
+        src={CDN_URL + cloudinaryImageId}
+        alt={name}
+      />
+      <h3 className="font-bold py-4 text-lg hover:text-green-500">{name}</h3>
+      <h5 className="text-sm text-gray-600">{cuisines.slice(0, 3).join(", ")}</h5>
+      <h5 className="text-sm text-gray-600">{costForTwo}</h5>
+      <h5 className="text-sm text-gray-600">{avgRating} ⭐</h5>
+      <h5 className="text-sm text-gray-600">{sla.deliveryTime} minutes</h5>
+      <h5 className="text-sm text-gray-600">User: {loggedInUser}</h5>
+    </div>
+  );
+};
+
+// Higher Order Component for Promoted Label
+export const withPrometedLabel = (RestaurantCard) => {
+  return (props) => {
+    return (
+      <div className="relative">
+        <label className="absolute top-2 left-2 bg-black text-white rounded-lg p-2 z-10">
+          Promoted
+        </label>
+        <RestaurantCard {...props} />
+      </div>
     );
+  };
 };
-// higher order component
-// it takes functional component "restaurant card" as input and return new functional component with added features 
-// and it does not modify existing features
 
-export const withPrometedLabel=(RestaurantCard)=>
-{
-    return (props)=> // returning a functional component
-    {
-        return(
-            <div>
-                <label className="absolute bg-black text-white rounded-lg  p-2 ">
-                    promoted
-                    </label>
-                    <RestaurantCard {...props}/>
-                
-            </div>
-        );
-    };
-};
 export default RestaurantCard;

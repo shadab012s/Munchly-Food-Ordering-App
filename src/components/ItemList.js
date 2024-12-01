@@ -44,7 +44,7 @@ const ItemList = ({ items }) => {
            
           )}
           <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2">
-                <button className="p-2 rounded-lg bg-white text-green-400 shadow-lg " onClick={()=>handleAddItem(item)}>
+                <button className="p-2 rounded-lg bg-white text-green-400 shadow-lg hover:bg-gray-200" onClick={()=>handleAddItem(item)}>
                   Add +
                 </button>
                  

@@ -1,5 +1,5 @@
 import React from "react";
-import UserContext from "../utils/UserContext";
+//import UserContext from "../utils/UserContext";
 
 class UserClass extends React.Component {
     constructor(props) {
@@ -30,12 +30,12 @@ class UserClass extends React.Component {
 
     render() {
         const { name, location } = this.state.userInfo; // Destructuring from state
-        const { count, count2 } = this.state;
+        const { count } = this.state;
 
         return (
             <div className="user-cards">
-                <h1>its class based component</h1>
-             
+                <h1>I am coming from the Class based component</h1>
+{/*              
                 <h1>Count: {count}</h1>
                 
                 <button className="bg-gray-300" onClick={() => this.setState({ count: count + 1 })}>
@@ -44,7 +44,7 @@ class UserClass extends React.Component {
 
                 <h2>Name: {name}</h2>
                 <h3>Location: {location || "Location not available"}</h3>
-                <h4>Contact: @munchly</h4>
+                <h4>Contact: @munchly</h4> */}
             </div>
         );
     }
