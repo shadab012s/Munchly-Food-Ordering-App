@@ -1,5 +1,6 @@
 # munchly
 /* 
+# Note- use CORS extension for Better UI experience
 ## Header
 - **Logo**
 - **Nav Items:**  
